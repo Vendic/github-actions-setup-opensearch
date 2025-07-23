@@ -61,6 +61,17 @@ Set `opensearch.yml` config
             http.port: 9200
 ```
 
+Use a local archive file
+
+```yml
+      - uses: ankane/setup-opensearch@v1
+        with:
+          opensearch-version: '2.19.2'
+          archive-path: '/path/to/opensearch-2.19.2-linux-arm64.tar.gz'
+```
+
+This is useful for caching archives on shared storage to avoid repeated downloads.
+
 ## Caching [experimental]
 
 Add a step to your workflow **before** the `setup-opensearch` one

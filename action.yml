@@ -6,6 +6,8 @@ inputs:
     description: OpenSearch plugins to install
   config:
     description: Set config
+  archive-path:
+    description: Path to existing OpenSearch tar.gz archive (optional)
 runs:
   using: node20
   main: index.js

@@ -110,14 +110,26 @@ function getUrl() {
 }
 
 function download() {
-  const url = getUrl();
-  if (isWindows()) {
-    run('curl', '-s', '-o', 'opensearch.zip', url);
-    run('unzip', '-q', 'opensearch.zip');
+  const archivePath = process.env['INPUT_ARCHIVE-PATH'];
+  
+  if (archivePath && fs.existsSync(archivePath)) {
+    console.log(`Using existing archive: ${archivePath}`);
+    if (isWindows()) {
+      run('unzip', '-q', archivePath);
+    } else {
+      run('tar', 'xfz', archivePath);
+    }
   } else {
-    run('wget', '-q', '-O', 'opensearch.tar.gz', url);
-    run('tar', 'xfz', 'opensearch.tar.gz');
+    const url = getUrl();
+    if (isWindows()) {
+      run('curl', '-s', '-o', 'opensearch.zip', url);
+      run('unzip', '-q', 'opensearch.zip');
+    } else {
+      run('wget', '-q', '-O', 'opensearch.tar.gz', url);
+      run('tar', 'xfz', 'opensearch.tar.gz');
+    }
   }
+  
   if (!fs.existsSync(cacheDir)) {
     fs.mkdirSync(cacheDir, {recursive: true});
   }

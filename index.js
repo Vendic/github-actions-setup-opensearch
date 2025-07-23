@@ -130,9 +130,6 @@ function download() {
     }
   }
   
-  if (!fs.existsSync(cacheDir)) {
-    fs.mkdirSync(cacheDir, {recursive: true});
-  }
   if (isWindows()) {
     // fix for: cross-device link not permitted
     run('mv', `opensearch-${opensearchVersion}`, opensearchHome)
@@ -224,8 +221,7 @@ function waitForReady() {
 }
 
 const opensearchVersion = getVersion();
-const cacheDir = path.join(os.homedir(), 'opensearch');
-const opensearchHome = path.join(cacheDir, opensearchVersion);
+const opensearchHome = `opensearch-${opensearchVersion}`;
 
 // java compatibility
 // https://opensearch.org/docs/latest/opensearch/install/compatibility/
